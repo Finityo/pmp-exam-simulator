@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+@import "tailwindcss-safe-area";
+
+@theme {
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 36px;
+  --text-4xl: 36px;
+  --text-4xl--line-height: 40px;
+  --text-5xl: 48px;
+  --text-5xl--line-height: 52px;
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light dark;
+  --bg: #eceff2;
+  --surface: #ffffff;
+  --surface2: #f4f6f8;
+  --text: #141a21;
+  --dim: #5d6a77;
+  --border: #d5dce2;
+  --accent: #b97a0e;
+  --accent-strong: #f0a832;
+  --people: #b97a0e;
+  --process: #22719f;
+  --business: #4d7c3a;
+  --good: #1e7d46;
+  --bad: #b3352b;
+  --radius: 14px;
+  --space-surface: var(--surface);
+  --space-surface-alt: var(--surface2);
+  --space-muted: var(--dim);
+  --space-border: var(--border);
+  --space-accent: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #10141a;
+    --surface: #1a212c;
+    --surface2: #222b38;
+    --text: #f4f1ea;
+    --dim: #9aa7b4;
+    --border: #2e3947;
+    --accent: #f0a832;
+    --accent-strong: #f0a832;
+    --people: #f0a832;
+    --process: #4ea8d8;
+    --business: #7fb069;
+    --good: #4cc07a;
+    --bad: #f0766a;
+  }
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+@keyframes levelbar {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+.level-bar {
+  transform-origin: center;
+  animation: levelbar 0.9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level-bar {
+    animation: none;
+  }
+}
