@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { SafeAreaTopScrim } from "@hatch/space-sdk/client";
+import { SafeAreaTopScrim } from "./components/SafeAreaTopScrim";
 import { api, type ApiResponse } from "./api";
 import { explanationAudio, questionAudio } from "./audioMap";
 import { glossaryAudio } from "./glossaryAudio";
@@ -227,7 +227,7 @@ function PlayButton({
         width: size,
         height: size,
         background: "var(--accent-strong)",
-        color: "#14100a",
+        color: "#ffffff",
         boxShadow: "0 6px 24px rgba(0,0,0,0.35)",
       }}
     >
@@ -258,7 +258,7 @@ function TermBadges({ term }: { term: GlossaryTerm }) {
     <span className="flex flex-wrap items-center gap-1.5">
       <span
         className="rounded-full px-2.5 py-0.5 text-xs font-bold"
-        style={{ background: DOMAIN_COLORS[term.domain] ?? "var(--accent)", color: "#10141a" }}
+        style={{ background: DOMAIN_COLORS[term.domain] ?? "var(--accent)", color: "var(--on-domain)" }}
       >
         {DOMAIN_NAMES[term.domain] ?? term.domain}
       </span>
@@ -365,7 +365,7 @@ function TermLookup({
             className="rounded-full px-3.5 py-2 text-sm font-semibold"
             style={{
               background: openTermId === t.id ? "var(--accent-strong)" : "var(--surface2)",
-              color: openTermId === t.id ? "#14100a" : "var(--text)",
+              color: openTermId === t.id ? "#ffffff" : "var(--text)",
               border: "1px solid var(--border)",
             }}
           >
@@ -862,7 +862,7 @@ export function App() {
                 className="rounded-full px-4 py-2 text-sm font-semibold"
                 style={{
                   background: view === v ? "var(--accent-strong)" : "var(--surface)",
-                  color: view === v ? "#14100a" : "var(--text)",
+                  color: view === v ? "#ffffff" : "var(--text)",
                   border: "1px solid var(--border)",
                 }}
               >
@@ -963,7 +963,7 @@ export function App() {
                   disabled={startMutation.isPending}
                   onClick={() => startMutation.mutate({ kind: "scenario", size: sessionSize })}
                   className="font-display mt-4 flex w-full items-center justify-center gap-3 rounded-[var(--radius)] px-6 py-4 text-lg font-bold"
-                  style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                  style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                 >
                   <LevelBars active={startMutation.isPending} />
                   {startMutation.isPending ? "Preparing your set..." : "Start spoken scenario practice"}
@@ -1021,7 +1021,7 @@ export function App() {
                     disabled={startMutation.isPending}
                     onClick={() => startMutation.mutate({ kind: "mock", size: mockSize })}
                     className="font-display mt-4 flex w-full items-center justify-center gap-3 rounded-[var(--radius)] px-6 py-4 text-lg font-bold"
-                    style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                    style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                   >
                     <LevelBars active={startMutation.isPending} />
                     {startMutation.isPending ? "Preparing your exam..." : "Start the mock exam"}
@@ -1220,7 +1220,7 @@ export function App() {
               disabled={startMutation.isPending}
               onClick={() => startMutation.mutate({ kind: "chart", size: 10 })}
               className="font-display mt-5 flex w-full items-center justify-center gap-3 rounded-[var(--radius)] px-6 py-4 text-lg font-bold"
-              style={{ background: "var(--accent-strong)", color: "#14100a" }}
+              style={{ background: "var(--accent-strong)", color: "#ffffff" }}
             >
               Drill the chart out loud
             </button>
@@ -1250,7 +1250,7 @@ export function App() {
                   type="button"
                   onClick={() => setView("home")}
                   className="font-display mt-4 rounded-full px-5 py-2.5 font-semibold"
-                  style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                  style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                 >
                   Go to practice
                 </button>
@@ -1897,7 +1897,7 @@ export function App() {
                     className="rounded-full px-4 py-2 text-sm font-semibold"
                     style={{
                       background: mockFlags.has(current.id) ? "var(--accent-strong)" : "var(--surface2)",
-                      color: mockFlags.has(current.id) ? "#14100a" : "var(--text)",
+                      color: mockFlags.has(current.id) ? "#ffffff" : "var(--text)",
                       border: "1px solid var(--border)",
                     }}
                   >
@@ -1923,7 +1923,7 @@ export function App() {
                             : answered
                               ? "var(--text)"
                               : "var(--surface2)",
-                          color: isCurrent ? "#14100a" : answered ? "var(--bg)" : "var(--text)",
+                          color: isCurrent ? "#ffffff" : answered ? "var(--bg)" : "var(--text)",
                           border: flagged
                             ? "2px solid var(--bad)"
                             : "1px solid var(--border)",
@@ -1950,7 +1950,7 @@ export function App() {
                   className="rounded-full px-3 py-1 text-xs font-bold"
                   style={{
                     background: DOMAIN_COLORS[current.domain] ?? "var(--accent)",
-                    color: "#10141a",
+                    color: "var(--on-domain)",
                   }}
                 >
                   {session.kind === "chart"
@@ -2075,7 +2075,7 @@ export function App() {
                         type="button"
                         onClick={() => submitChoice(voicePending.index, "voice")}
                         className="font-display rounded-full px-5 py-2.5 font-semibold"
-                        style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                        style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                       >
                         {isMock ? "Select" : "Score"} option {LETTERS[voicePending.index]}
                       </button>
@@ -2174,7 +2174,7 @@ export function App() {
                             disabled={mockSubmitting}
                             onClick={() => void finishMock()}
                             className="font-display rounded-full px-5 py-3 font-bold"
-                            style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                            style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                           >
                             {mockSubmitting ? "Submitting..." : "Yes, finish and score my exam"}
                           </button>
@@ -2195,7 +2195,7 @@ export function App() {
                         disabled={mockSubmitting}
                         onClick={() => setConfirmFinishMock(true)}
                         className="font-display mt-4 w-full rounded-[var(--radius)] px-6 py-4 text-lg font-bold"
-                        style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                        style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                       >
                         Finish exam and see my score
                       </button>
@@ -2277,7 +2277,7 @@ export function App() {
                   onClick={goNext}
                   disabled={finishMutation.isPending}
                   className="font-display mt-4 w-full rounded-[var(--radius)] px-6 py-4 text-lg font-bold"
-                  style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                  style={{ background: "var(--accent-strong)", color: "#ffffff" }}
                 >
                   {qIndex + 1 >= session.questions.length
                     ? finishMutation.isPending
@@ -2378,7 +2378,7 @@ export function App() {
                 type="button"
                 onClick={() => setView("gap")}
                 className="font-display rounded-full px-5 py-3 font-semibold"
-                style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                style={{ background: "var(--accent-strong)", color: "#ffffff" }}
               >
                 View gap analysis
               </button>
@@ -2543,7 +2543,7 @@ export function App() {
                 type="button"
                 onClick={() => setView("gap")}
                 className="font-display rounded-full px-5 py-3 font-semibold"
-                style={{ background: "var(--accent-strong)", color: "#14100a" }}
+                style={{ background: "var(--accent-strong)", color: "#ffffff" }}
               >
                 View gap analysis
               </button>

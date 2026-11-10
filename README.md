@@ -13,9 +13,20 @@ A voice-based PMP exam prep app built around original situational questions and 
 
 ## Tech notes
 
-- Client: React and TypeScript (`client/src`), built with the script in `client/build.mjs`
-- Server: TypeScript server actions (`server/src`) with a Drizzle ORM schema over SQLite (`drizzle/` holds the migrations)
-- Audio: 628 recorded MP3 files for questions, explanations, and glossary terms live under `client/src/assets/audio/` in the full source tree
+- Client: React and TypeScript (`client/src`), built with Vite into a static bundle in `dist/`
+- Fully standalone and offline: the question bank and glossary ship inside the client bundle (`client/src/data`), the practice and scoring logic runs in the browser (`client/src/local`), and progress and sessions persist in localStorage on the device. There is no server and no account.
+- Audio: 628 recorded MP3 files for questions, explanations, and glossary terms live under `client/src/assets/audio/` and are emitted into `dist/assets/` at build time
+- iOS: Capacitor wraps the `dist/` output (see `capacitor.config.ts` and MAC-SETUP.md)
+
+## Standalone build
+
+Requires Node.js (a current LTS release) and npm.
+
+1. `npm install`
+2. `npm run build` (production bundle lands in `dist/`; serve that folder with any static host, or use `npm run preview` to check it locally)
+3. `npm run dev` for the local development server, `npm run typecheck` for the TypeScript check
+
+To wrap the app for iOS on a Mac with Xcode, follow the numbered steps in [MAC-SETUP.md](MAC-SETUP.md).
 
 ## About
 

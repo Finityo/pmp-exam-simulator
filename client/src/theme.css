@@ -27,17 +27,18 @@
 
 :root {
   color-scheme: light dark;
-  --bg: #eceff2;
-  --surface: #ffffff;
-  --surface2: #f4f6f8;
-  --text: #141a21;
-  --dim: #5d6a77;
-  --border: #d5dce2;
-  --accent: #b97a0e;
-  --accent-strong: #f0a832;
-  --people: #b97a0e;
-  --process: #22719f;
-  --business: #4d7c3a;
+  --bg: #F5F5F5;
+  --surface: #FFFFFF;
+  --surface2: #EFEDF3;
+  --text: #212121;
+  --dim: #575757;
+  --border: color-mix(in srgb, #170A2A 16%, #FFFFFF);
+  --accent: #4F17A8;
+  --accent-strong: #441D82;
+  --people: #4F17A8;
+  --process: #00799E;
+  --business: #200F3B;
+  --on-domain: #FFFFFF;
   --good: #1e7d46;
   --bad: #b3352b;
   --radius: 14px;
@@ -50,17 +51,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #10141a;
-    --surface: #1a212c;
-    --surface2: #222b38;
-    --text: #f4f1ea;
-    --dim: #9aa7b4;
-    --border: #2e3947;
-    --accent: #f0a832;
-    --accent-strong: #f0a832;
-    --people: #f0a832;
-    --process: #4ea8d8;
-    --business: #7fb069;
+    --bg: #170A2A;
+    --surface: #200F3B;
+    --surface2: #1A0837;
+    --text: #FFFFFF;
+    --dim: color-mix(in srgb, #EFEDF3 62%, #170A2A);
+    --border: color-mix(in srgb, #FFFFFF 18%, #170A2A);
+    --accent: color-mix(in srgb, #4F17A8 48%, #FFFFFF);
+    --accent-strong: #4F17A8;
+    --people: color-mix(in srgb, #4F17A8 48%, #FFFFFF);
+    --process: color-mix(in srgb, #00799E 58%, #FFFFFF);
+    --business: color-mix(in srgb, #4F17A8 78%, #FFFFFF);
+    --on-domain: #170A2A;
     --good: #4cc07a;
     --bad: #f0766a;
   }

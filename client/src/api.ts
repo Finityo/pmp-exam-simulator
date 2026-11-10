@@ -1,20 +1,25 @@
-// Typed RPC client. Types come straight from `server/src/actions.ts`: no
-// codegen. `createActionClient` returns a proxy that POSTs `{action, args}`
-// to `./actions` and returns the typed response.
+// Local API for the standalone build.
 //
-// `import type { Actions }` is type-only by design: the client bundle never
-// pulls in any server runtime (bun:sqlite, file APIs, etc.). With
-// `verbatimModuleSyntax: true`, dropping `type` is a compile error.
-
-import type { Actions } from "../../server/src/actions";
-import { createActionClient } from "@hatch/space-sdk/client";
-
-export const api = createActionClient<typeof Actions>();
-
-// Re-exported for convenience so client code can do
+// The client used to call server actions over RPC. The standalone build
+// runs the same action logic in the browser instead: `api` below is the
+// ported implementation in ./local/actions.ts, exposing the same method
+// names, argument shapes, and response shapes the client has always
+// used. Progress and sessions persist in localStorage (see
+// ./local/store.ts), the question bank and glossary are bundled from
+// ./data, and nothing leaves the device.
+//
+// ApiRequest and ApiResponse keep their original meaning so client code
+// can keep writing:
 //
 //     import { api, type ApiResponse } from "./api";
-//     type Article = ApiResponse<typeof api, "listArticles">["articles"][number];
-//
-// They are also available directly from "@hatch/space-sdk/client".
-export type { ApiRequest, ApiResponse } from "@hatch/space-sdk/client";
+//     type Session = ApiResponse<typeof api, "startSession">;
+
+import { localActions } from "./local/actions";
+
+export const api = localActions;
+
+export type ApiRequest<TActions, K extends keyof TActions> =
+  TActions[K] extends (args: infer A) => unknown ? A : never;
+
+export type ApiResponse<TActions, K extends keyof TActions> =
+  TActions[K] extends (args: never) => Promise<infer R> ? R : never;
