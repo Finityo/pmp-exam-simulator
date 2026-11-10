@@ -1,8 +1,0 @@
-{
-  "entry": "client/dist/index.html",
-  "managedCronJobs": [],
-  "name": "PMP Exam Simulator",
-  "platformVersion": 28,
-  "runtime": "typescript",
-  "slug": "pmp-voice-simulator"
-}
