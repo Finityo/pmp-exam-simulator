@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Hero } from "./components/Hero";
 import { SafeAreaTopScrim } from "./components/SafeAreaTopScrim";
 import { api, type ApiResponse } from "./api";
 import { explanationAudio, questionAudio } from "./audioMap";
@@ -457,6 +458,7 @@ function DomainBar({
 
 export function App() {
   const queryClient = useQueryClient();
+  const [heroDismissed, setHeroDismissed] = useState(false);
   const [view, setView] = useState<View>("home");
   const [sessionSize, setSessionSize] = useState(10);
   const [session, setSession] = useState<SessionData | null>(null);
@@ -838,6 +840,10 @@ export function App() {
   const weakestName = ov?.weakestDomain
     ? (ov.domains.find((d) => d.key === ov.weakestDomain)?.name ?? null)
     : null;
+
+  if (!heroDismissed) {
+    return <Hero onBegin={() => setHeroDismissed(true)} />;
+  }
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
