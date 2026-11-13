@@ -5,6 +5,9 @@ import { SafeAreaTopScrim } from "./components/SafeAreaTopScrim";
 import { api, type ApiResponse } from "./api";
 import { explanationAudio, questionAudio } from "./audioMap";
 import { glossaryAudio } from "./glossaryAudio";
+import { bundledExplanationAudio, bundledQuestionAudio } from "./audioMapBundled";
+import { bundledGlossaryAudio } from "./glossaryAudioBundled";
+import { AUDIO_BASE } from "./audioBase";
 
 type SessionData = ApiResponse<typeof api, "startSession">;
 type Question = SessionData["questions"][number];
@@ -485,6 +488,8 @@ export function App() {
 
   const mockSubmittedIds = useRef<Set<string>>(new Set());
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playingKeyRef = useRef<string | null>(null);
+  const fallbackTriedRef = useRef<Set<string>>(new Set());
   const [playingKey, setPlayingKey] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
 
@@ -525,12 +530,30 @@ export function App() {
       setPlayingKey(null);
       setProgress(0);
     };
+    const onError = () => {
+      const key = playingKeyRef.current;
+      if (!key || !audio.src.startsWith(AUDIO_BASE)) return;
+      if (fallbackTriedRef.current.has(key)) {
+        setPlayingKey(null);
+        return;
+      }
+      const bundled = bundledForKey(key);
+      if (!bundled) {
+        setPlayingKey(null);
+        return;
+      }
+      fallbackTriedRef.current.add(key);
+      audio.src = bundled;
+      void audio.play().catch(() => setPlayingKey(null));
+    };
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnd);
+    audio.addEventListener("error", onError);
     return () => {
       audio.pause();
       audio.removeEventListener("timeupdate", onTime);
       audio.removeEventListener("ended", onEnd);
+      audio.removeEventListener("error", onError);
     };
   }, []);
 
@@ -540,8 +563,36 @@ export function App() {
       a.pause();
       a.currentTime = 0;
     }
+    playingKeyRef.current = null;
     setPlayingKey(null);
     setProgress(0);
+  };
+
+  const bundledForKey = (key: string): string | undefined => {
+    const id = key.slice(2);
+    if (key.startsWith("q-")) return bundledQuestionAudio[id];
+    if (key.startsWith("e-")) return bundledExplanationAudio[id];
+    if (key.startsWith("g-")) return bundledGlossaryAudio[id];
+    return undefined;
+  };
+
+  const playWithFallback = (a: HTMLAudioElement, src: string, key: string) => {
+    a.src = src;
+    playingKeyRef.current = key;
+    setPlayingKey(key);
+    setProgress(0);
+    void a.play().catch(() => {
+      if (src.startsWith(AUDIO_BASE) && !fallbackTriedRef.current.has(key)) {
+        const bundled = bundledForKey(key);
+        if (bundled) {
+          fallbackTriedRef.current.add(key);
+          a.src = bundled;
+          void a.play().catch(() => setPlayingKey(null));
+          return;
+        }
+      }
+      setPlayingKey(null);
+    });
   };
 
   const playAudio = (src: string | undefined, key: string) => {
@@ -551,10 +602,7 @@ export function App() {
       stopAudio();
       return;
     }
-    a.src = src;
-    setPlayingKey(key);
-    setProgress(0);
-    void a.play().catch(() => setPlayingKey(null));
+    playWithFallback(a, src, key);
   };
 
   const startMutation = useMutation({
@@ -630,10 +678,7 @@ export function App() {
     const a = audioRef.current;
     if (a && src) {
       const t = setTimeout(() => {
-        a.src = src;
-        setPlayingKey(`q-${current.id}`);
-        setProgress(0);
-        void a.play().catch(() => setPlayingKey(null));
+        playWithFallback(a, src, `q-${current.id}`);
       }, 350);
       return () => clearTimeout(t);
     }
