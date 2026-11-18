@@ -10,6 +10,7 @@ import { WEEK_FIVE_QUESTIONS } from "./legacy-week-five";
 import { WEEK_SIX_QUESTIONS } from "./legacy-week-six";
 import { CHART_QUESTIONS } from "./legacy-chart";
 import { PACK_ONE_QUESTIONS } from "./pack-01";
+import { PACK_TWO_QUESTIONS } from "./pack-02";
 import { DOMAINS } from "./types";
 import type { BankQuestion, DomainKey } from "./types";
 
@@ -24,6 +25,7 @@ export { WEEK_FIVE_QUESTIONS } from "./legacy-week-five";
 export { WEEK_SIX_QUESTIONS } from "./legacy-week-six";
 export { CHART_QUESTIONS } from "./legacy-chart";
 export { PACK_ONE_QUESTIONS } from "./pack-01";
+export { PACK_TWO_QUESTIONS } from "./pack-02";
 
 export const ALL_SCENARIO_QUESTIONS: BankQuestion[] = [
   ...SCENARIO_QUESTIONS,
@@ -36,6 +38,7 @@ export const ALL_SCENARIO_QUESTIONS: BankQuestion[] = [
   ...WEEK_FIVE_QUESTIONS,
   ...WEEK_SIX_QUESTIONS,
   ...PACK_ONE_QUESTIONS,
+  ...PACK_TWO_QUESTIONS,
 ];
 
 export const ALL_QUESTIONS: BankQuestion[] = [
